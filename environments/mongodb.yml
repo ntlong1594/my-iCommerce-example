@@ -1,0 +1,9 @@
+version: '2'
+services:
+  historical-mongodb:
+    image: mongo:4.2.7
+    container_name: icommerce-mongodb
+    ports:
+      - '27017:27017'
+    # volumes:
+    #     - ~/volumes/jhipster/historical/mongodb/:/data/db/

@@ -1,0 +1,30 @@
+{
+  "gatewayApp": {
+    "historicalHistorical": {
+      "home": {
+        "title": "Historicals",
+        "createLabel": "Create a new Historical",
+        "createOrEditLabel": "Create or edit a Historical",
+        "notFound": "No Historicals found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Historical {{ id }}?"
+      },
+      "detail": {
+        "title": "Historical"
+      },
+      "userId": "User Id",
+      "correlationId": "Correlation Id",
+      "actionId": "Action Id",
+      "actionDescription": "Action Description",
+      "actionDate": "Action Date"
+    }
+  },
+  "historicalApp": {
+    "historicalHistorical": {
+      "created": "A new Historical is created with identifier {{ param }}",
+      "updated": "A Historical is updated with identifier {{ param }}",
+      "deleted": "A Historical is deleted with identifier {{ param }}"
+    }
+  }
+}

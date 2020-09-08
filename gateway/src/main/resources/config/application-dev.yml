@@ -17,7 +17,7 @@ logging:
   level:
     ROOT: DEBUG
     io.github.jhipster: DEBUG
-    com.icommerce.app: DEBUG
+    com.icommerce.developer.gateway: DEBUG
 
 eureka:
   instance:
@@ -25,11 +25,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
-
-management:
-  health:
-    elasticsearch:
-      enabled: false
 
 spring:
   profiles:
@@ -49,7 +44,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:gateway;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:./target/h2db/db/gateway;DB_CLOSE_DELAY=-1
     username: gateway
     password:
     hikari:
@@ -61,11 +56,6 @@ spring:
   jpa:
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
     show-sql: true
-  data:
-    elasticsearch:
-      properties:
-        path:
-          home: target/elasticsearch
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -105,6 +95,10 @@ jhipster:
       duration-in-seconds: 3600
     authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
       app1: /api,/v2/api-docs # recommended dev configuration
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 100 # Number of objects in each cache entry
   # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
   cors:
     allowed-origins: '*'
@@ -113,12 +107,6 @@ jhipster:
     exposed-headers: 'Authorization,Link,X-Total-Count'
     allow-credentials: true
     max-age: 1800
-  security:
-    client-authorization:
-      access-token-uri: http://uaa/oauth/token
-      token-service-id: uaa
-      client-id: internal
-      client-secret: internal
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://127.0.0.1:8080
   metrics:
@@ -134,20 +122,7 @@ jhipster:
       queue-size: 512
   audit-events:
     retention-period: 30 # Number of days before audit events are deleted.
-oauth2:
-  signature-verification:
-    public-key-endpoint-uri: http://uaa/oauth/token_key
-    #ttl for public keys to verify JWT tokens (in ms)
-    ttl: 3600000
-    #max. rate at which public keys will be fetched (in ms)
-    public-key-refresh-rate-limit: 10000
-  web-client-configuration:
-    #keep in sync with UAA configuration
-    client-id: web_app
-    secret: changeit
-    # Controls session expiration due to inactivity (ignored for remember-me).
-    # Negative values disable session inactivity expiration.
-    session-timeout-in-seconds: 1800
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

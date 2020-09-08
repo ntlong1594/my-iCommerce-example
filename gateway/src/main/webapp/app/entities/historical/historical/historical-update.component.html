@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-historical-heading" jhiTranslate="gatewayApp.historicalHistorical.home.createOrEditLabel">Create or edit a Historical</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.historicalHistorical.userId" for="field_userId">User Id</label>
+                    <input type="text" class="form-control" name="userId" id="field_userId"
+                           formControlName="userId"/>
+                    <div *ngIf="editForm.get('userId')!.invalid && (editForm.get('userId')!.dirty || editForm.get('userId')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('userId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.historicalHistorical.correlationId" for="field_correlationId">Correlation Id</label>
+                    <input type="text" class="form-control" name="correlationId" id="field_correlationId"
+                           formControlName="correlationId"/>
+                    <div *ngIf="editForm.get('correlationId')!.invalid && (editForm.get('correlationId')!.dirty || editForm.get('correlationId')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('correlationId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.historicalHistorical.actionId" for="field_actionId">Action Id</label>
+                    <input type="text" class="form-control" name="actionId" id="field_actionId"
+                           formControlName="actionId"/>
+                    <div *ngIf="editForm.get('actionId')!.invalid && (editForm.get('actionId')!.dirty || editForm.get('actionId')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('actionId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.historicalHistorical.actionDescription" for="field_actionDescription">Action Description</label>
+                    <input type="text" class="form-control" name="actionDescription" id="field_actionDescription"
+                           formControlName="actionDescription"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.historicalHistorical.actionDate" for="field_actionDate">Action Date</label>
+                    <div class="input-group">
+                        <input id="field_actionDate" type="text" class="form-control" name="actionDate" ngbDatepicker #actionDateDp="ngbDatepicker" formControlName="actionDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="actionDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('actionDate')!.invalid && (editForm.get('actionDate')!.dirty || editForm.get('actionDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('actionDate')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
