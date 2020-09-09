@@ -24,6 +24,14 @@ public class Order implements Serializable {
     private String paymentType;
 
     @NotNull
+    @Field("cart")
+    private Cart cart;
+
+    @NotNull
+    @Field("delivery_date")
+    private LocalDate deliveryDate;
+
+    @NotNull
     @Field("created_date")
     private LocalDate createdDate;
 
@@ -79,13 +87,30 @@ public class Order implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Order{" +
-            "id=" + getId() +
-            ", paymentType='" + getPaymentType() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            "}";
+            "id='" + id + '\'' +
+            ", paymentType='" + paymentType + '\'' +
+            ", cart=" + cart +
+            ", deliveryDate=" + deliveryDate +
+            ", createdDate=" + createdDate +
+            '}';
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

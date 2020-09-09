@@ -1,16 +1,16 @@
 package com.icommerce.developer.product;
 
 import com.icommerce.developer.product.config.ApplicationProperties;
-
+import com.icommerce.developer.product.messaging.HistoricalEventChannel;
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +21,7 @@ import java.util.Collection;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ApplicationProperties.class})
+@EnableBinding(value = {HistoricalEventChannel.class})
 public class ProductApp {
 
     private static final Logger log = LoggerFactory.getLogger(ProductApp.class);
@@ -99,6 +100,6 @@ public class ProductApp {
             configServerStatus = "Not found or not setup for this application";
         }
         log.info("\n----------------------------------------------------------\n\t" +
-                "Config Server: \t{}\n----------------------------------------------------------", configServerStatus);
+            "Config Server: \t{}\n----------------------------------------------------------", configServerStatus);
     }
 }

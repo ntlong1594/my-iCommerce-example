@@ -3,14 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { HistoricalDetailComponent } from 'app/entities/historical/historical/historical-detail.component';
-import { Historical } from 'app/shared/model/historical/historical.model';
+import { HistoricalDetailComponent } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical-detail.component';
+import { Historical } from 'app/shared/model/userActivitiesHistorical/userActivitiesHistorical.model';
 
 describe('Component Tests', () => {
   describe('Historical Management Detail Component', () => {
     let comp: HistoricalDetailComponent;
     let fixture: ComponentFixture<HistoricalDetailComponent>;
-    const route = ({ data: of({ historical: new Historical(123) }) } as any) as ActivatedRoute;
+    const route = ({ data: of({ userActivitiesHistorical: new Historical(123) }) } as any) as ActivatedRoute;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -25,12 +25,12 @@ describe('Component Tests', () => {
     });
 
     describe('OnInit', () => {
-      it('Should load historical on init', () => {
+      it('Should load userActivitiesHistorical on init', () => {
         // WHEN
         comp.ngOnInit();
 
         // THEN
-        expect(comp.historical).toEqual(jasmine.objectContaining({ id: 123 }));
+        expect(comp.userActivitiesHistorical).toEqual(jasmine.objectContaining({ id: 123 }));
       });
     });
   });

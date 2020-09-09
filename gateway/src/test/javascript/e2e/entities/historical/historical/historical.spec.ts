@@ -1,7 +1,7 @@
 import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../../page-objects/jhi-page-objects';
 
-import { HistoricalComponentsPage, HistoricalDeleteDialog, HistoricalUpdatePage } from './historical.page-object';
+import { HistoricalComponentsPage, HistoricalDeleteDialog, HistoricalUpdatePage } from './userActivitiesHistorical.page-object';
 
 const expect = chai.expect;
 
@@ -21,7 +21,7 @@ describe('Historical e2e test', () => {
   });
 
   it('should load Historicals', async () => {
-    await navBarPage.goToEntity('historical');
+    await navBarPage.goToEntity('userActivitiesHistorical');
     historicalComponentsPage = new HistoricalComponentsPage();
     await browser.wait(ec.visibilityOf(historicalComponentsPage.title), 5000);
     expect(await historicalComponentsPage.getTitle()).to.eq('gatewayApp.historicalHistorical.home.title');

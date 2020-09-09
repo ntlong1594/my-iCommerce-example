@@ -4,9 +4,9 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { HistoricalComponent } from 'app/entities/historical/historical/historical.component';
-import { HistoricalService } from 'app/entities/historical/historical/historical.service';
-import { Historical } from 'app/shared/model/historical/historical.model';
+import { HistoricalComponent } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical.component';
+import { HistoricalService } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical.service';
+import { Historical } from 'app/shared/model/userActivitiesHistorical/userActivitiesHistorical.model';
 
 describe('Component Tests', () => {
   describe('Historical Management Component', () => {

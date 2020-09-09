@@ -2,8 +2,8 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { HistoricalService } from 'app/entities/historical/historical/historical.service';
-import { IHistorical, Historical } from 'app/shared/model/historical/historical.model';
+import { HistoricalService } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical.service';
+import { IHistorical, Historical } from 'app/shared/model/userActivitiesHistorical/userActivitiesHistorical.model';
 
 describe('Service Tests', () => {
   describe('Historical Service', () => {

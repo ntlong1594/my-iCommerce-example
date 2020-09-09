@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="gradle-wrapper2">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/gateway/node_modules/generator-jhipster/generators/server/templates/gradle/wrapper/gradle-wrapper.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

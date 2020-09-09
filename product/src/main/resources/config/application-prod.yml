@@ -33,6 +33,17 @@ management:
         enabled: false
 
 spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+          defaultBrokerPort: 9092
+      bindings:
+        userActivitiesHistoricalEventOutputChannel:
+          destination: user-historical-tracking
+        productChangelogHistoricalEventOutputChannel:
+          destination: product-changelog-tracking
   devtools:
     restart:
       enabled: false

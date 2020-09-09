@@ -1,14 +1,11 @@
 package com.icommerce.developer.historical.config.dbmigrations;
 
 import com.icommerce.developer.historical.domain.Authority;
-import com.icommerce.developer.historical.domain.User;
 import com.icommerce.developer.historical.security.AuthoritiesConstants;
 
 import com.github.mongobee.changeset.ChangeLog;
 import com.github.mongobee.changeset.ChangeSet;
 import org.springframework.data.mongodb.core.MongoTemplate;
-
-import java.time.Instant;
 
 /**
  * Creates the initial database setup.

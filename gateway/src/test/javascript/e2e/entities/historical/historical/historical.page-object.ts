@@ -2,8 +2,8 @@ import { element, by, ElementFinder } from 'protractor';
 
 export class HistoricalComponentsPage {
   createButton = element(by.id('jh-create-entity'));
-  deleteButtons = element.all(by.css('jhi-historical div table .btn-danger'));
-  title = element.all(by.css('jhi-historical div h2#page-heading span')).first();
+  deleteButtons = element.all(by.css('jhi-userActivitiesHistorical div table .btn-danger'));
+  title = element.all(by.css('jhi-userActivitiesHistorical div h2#page-heading span')).first();
   noResult = element(by.id('no-result'));
   entities = element(by.id('entities'));
 
@@ -25,7 +25,7 @@ export class HistoricalComponentsPage {
 }
 
 export class HistoricalUpdatePage {
-  pageTitle = element(by.id('jhi-historical-heading'));
+  pageTitle = element(by.id('jhi-userActivitiesHistorical-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
@@ -93,8 +93,8 @@ export class HistoricalUpdatePage {
 }
 
 export class HistoricalDeleteDialog {
-  private dialogTitle = element(by.id('jhi-delete-historical-heading'));
-  private confirmButton = element(by.id('jhi-confirm-delete-historical'));
+  private dialogTitle = element(by.id('jhi-delete-userActivitiesHistorical-heading'));
+  private confirmButton = element(by.id('jhi-confirm-delete-userActivitiesHistorical'));
 
   async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');

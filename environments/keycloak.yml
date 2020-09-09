@@ -1,6 +1,6 @@
 version: '2'
 services:
-  keycloak:
+  icommerce-keycloak:
     image: jboss/keycloak:10.0.0
     container_name: icommerce-keycloak
     command:

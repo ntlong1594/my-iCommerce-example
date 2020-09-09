@@ -1,109 +1,78 @@
 package com.icommerce.developer.product.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import javax.validation.constraints.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.UUID;
 
-/**
- * A Cart.
- */
-@Document(collection = "cart")
+
 public class Cart implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    private String id;
+    private UUID id;
 
-    @NotNull
-    @Field("status")
-    private String status;
+    private String userId;
 
-    @NotNull
-    @Field("created_date")
+    private Map<Product, Integer> selectedProducts;
+
+    private Integer totalAmount;
+
     private LocalDate createdDate;
 
-    @NotNull
-    @Field("expired_date")
-    private LocalDate expiredDate;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-    public String getId() {
-        return id;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getStatus() {
-        return status;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public Cart status(String status) {
-        this.status = status;
-        return this;
+    public Map<Product, Integer> getSelectedProducts() {
+        return selectedProducts;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSelectedProducts(Map<Product, Integer> selectedProducts) {
+        this.selectedProducts = selectedProducts;
     }
 
     public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public Cart createdDate(LocalDate createdDate) {
-        this.createdDate = createdDate;
-        return this;
-    }
-
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDate getExpiredDate() {
-        return expiredDate;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public Cart expiredDate(LocalDate expiredDate) {
-        this.expiredDate = expiredDate;
-        return this;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public void setExpiredDate(LocalDate expiredDate) {
-        this.expiredDate = expiredDate;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Cart)) {
-            return false;
-        }
-        return id != null && id.equals(((Cart) o).id);
+    public UUID getId() {
+        return id;
     }
 
-    @Override
-    public int hashCode() {
-        return 31;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "Cart{" +
-            "id=" + getId() +
-            ", status='" + getStatus() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", expiredDate='" + getExpiredDate() + "'" +
-            "}";
+            "id=" + id +
+            ", userId='" + userId + '\'' +
+            ", selectedProducts=" + selectedProducts +
+            ", totalAmount=" + totalAmount +
+            ", createdDate=" + createdDate +
+            '}';
     }
 }

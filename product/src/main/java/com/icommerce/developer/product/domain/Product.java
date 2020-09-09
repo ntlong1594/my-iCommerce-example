@@ -9,6 +9,8 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A Product.
@@ -29,9 +31,8 @@ public class Product implements Serializable {
     private String title;
 
     @NotNull
-    @DecimalMin(value = "0")
     @Field("price")
-    private BigDecimal price;
+    private Integer price;
 
     @NotNull
     @Field("brand")
@@ -65,16 +66,16 @@ public class Product implements Serializable {
         this.title = title;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public Product price(BigDecimal price) {
+    public Product price(Integer price) {
         this.price = price;
         return this;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -126,23 +127,29 @@ public class Product implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Product)) {
-            return false;
-        }
-        return id != null && id.equals(((Product) o).id);
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(getId(), product.getId()) &&
+            Objects.equals(getVersion(), product.getVersion()) &&
+            Objects.equals(getTitle(), product.getTitle()) &&
+            Objects.equals(getPrice(), product.getPrice()) &&
+            Objects.equals(getBrand(), product.getBrand()) &&
+            Arrays.equals(getImage(), product.getImage()) &&
+            Objects.equals(getImageContentType(), product.getImageContentType());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        int result = Objects.hash(getId(), getVersion(), getTitle(), getPrice(), getBrand(), getImageContentType());
+        result = 31 * result + Arrays.hashCode(getImage());
+        return result;
     }
 
-    // prettier-ignore
+    // prettierignore
     @Override
     public String toString() {
         return "Product{" +

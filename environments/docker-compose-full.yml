@@ -3,7 +3,7 @@ services:
   postgresql:
     extends:
       file: postgresql.yml
-      service: postgresql
+      service: icommerce-postgresql
   jhipster-registry:
     extends:
       file: jhipster-registry.yml
@@ -14,8 +14,16 @@ services:
   keycloak:
     extends:
       file: keycloak.yml
-      service: keycloak
+      service: icommerce-keycloak
   mongodb:
     extends:
       file: mongodb.yml
-      service: historical-mongodb
+      service: icommerce-mongodb
+  zookeeper:
+    extends:
+      file: zookeeper.yml
+      service: zookeeper
+  kafka:
+    extends:
+      file: kafka.yml
+      service: kafka

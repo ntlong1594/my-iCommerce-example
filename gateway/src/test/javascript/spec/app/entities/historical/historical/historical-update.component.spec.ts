@@ -4,9 +4,9 @@ import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { HistoricalUpdateComponent } from 'app/entities/historical/historical/historical-update.component';
-import { HistoricalService } from 'app/entities/historical/historical/historical.service';
-import { Historical } from 'app/shared/model/historical/historical.model';
+import { HistoricalUpdateComponent } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical-update.component';
+import { HistoricalService } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical.service';
+import { Historical } from 'app/shared/model/userActivitiesHistorical/userActivitiesHistorical.model';
 
 describe('Component Tests', () => {
   describe('Historical Management Update Component', () => {

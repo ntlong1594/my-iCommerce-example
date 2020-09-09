@@ -4,7 +4,6 @@ import com.icommerce.developer.product.ProductApp;
 import com.icommerce.developer.product.config.TestSecurityConfiguration;
 import com.icommerce.developer.product.domain.Product;
 import com.icommerce.developer.product.repository.ProductRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Base64Utils;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,8 +33,8 @@ public class ProductResourceIT {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
-    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(0);
-    private static final BigDecimal UPDATED_PRICE = new BigDecimal(1);
+    private static final Integer DEFAULT_PRICE = 0;
+    private static final Integer UPDATED_PRICE = 1;
 
     private static final String DEFAULT_BRAND = "AAAAAAAAAA";
     private static final String UPDATED_BRAND = "BBBBBBBBBB";
@@ -200,7 +198,7 @@ public class ProductResourceIT {
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
-    
+
     @Test
     public void getProduct() throws Exception {
         // Initialize the database

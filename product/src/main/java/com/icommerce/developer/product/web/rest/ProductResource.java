@@ -1,9 +1,10 @@
 package com.icommerce.developer.product.web.rest;
 
 import com.icommerce.developer.product.domain.Product;
-import com.icommerce.developer.product.repository.ProductRepository;
+import com.icommerce.developer.product.service.ProductService;
+import com.icommerce.developer.product.service.dto.ProductDTO;
+import com.icommerce.developer.product.service.dto.SearchCriteria;
 import com.icommerce.developer.product.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -13,11 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -39,10 +38,11 @@ public class ProductResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final ProductRepository productRepository;
 
-    public ProductResource(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    private final ProductService productService;
+
+    public ProductResource(ProductService productService) {
+        this.productService = productService;
     }
 
     /**
@@ -53,12 +53,12 @@ public class ProductResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) throws URISyntaxException {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO product) throws URISyntaxException {
         log.debug("REST request to save Product : {}", product);
         if (product.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Product result = productRepository.save(product);
+        Product result = productService.save(product);
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
@@ -71,15 +71,14 @@ public class ProductResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated product,
      * or with status {@code 400 (Bad Request)} if the product is not valid,
      * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product) throws URISyntaxException {
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody ProductDTO product) {
         log.debug("REST request to update Product : {}", product);
         if (product.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Product result = productRepository.save(product);
+        Product result = productService.update(product);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, product.getId()))
             .body(result);
@@ -94,7 +93,16 @@ public class ProductResource {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts(Pageable pageable) {
         log.debug("REST request to get a page of Products");
-        Page<Product> page = productRepository.findAll(pageable);
+        Page<Product> page = productService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(SearchCriteria searchCriteria,
+                                                        Pageable pageable) {
+        log.debug("REST request to get a page of Products");
+        Page<Product> page = productService.search(searchCriteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -108,7 +116,7 @@ public class ProductResource {
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable String id) {
         log.debug("REST request to get Product : {}", id);
-        Optional<Product> product = productRepository.findById(id);
+        Optional<Product> product = productService.findDetailBy(id);
         return ResponseUtil.wrapOrNotFound(product);
     }
 
@@ -121,7 +129,7 @@ public class ProductResource {
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         log.debug("REST request to delete Product : {}", id);
-        productRepository.deleteById(id);
+        productService.deleteBy(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

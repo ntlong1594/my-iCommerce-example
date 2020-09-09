@@ -16,10 +16,6 @@ import { RouterModule } from '@angular/router';
         path: 'order',
         loadChildren: () => import('./product/order/order.module').then(m => m.ProductOrderModule),
       },
-      {
-        path: 'historical',
-        loadChildren: () => import('./historical/historical/historical.module').then(m => m.HistoricalHistoricalModule),
-      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

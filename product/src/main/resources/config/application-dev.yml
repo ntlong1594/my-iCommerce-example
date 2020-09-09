@@ -27,6 +27,17 @@ eureka:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
 spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+          defaultBrokerPort: 9092
+      bindings:
+        userActivitiesHistoricalEventOutputChannel:
+          destination: user-historical-tracking
+        productChangelogHistoricalEventOutputChannel:
+          destination: product-changelog-tracking
   profiles:
     active: dev
     include:

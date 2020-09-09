@@ -6,8 +6,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { GatewayTestModule } from '../../../../test.module';
 import { MockEventManager } from '../../../../helpers/mock-event-manager.service';
 import { MockActiveModal } from '../../../../helpers/mock-active-modal.service';
-import { HistoricalDeleteDialogComponent } from 'app/entities/historical/historical/historical-delete-dialog.component';
-import { HistoricalService } from 'app/entities/historical/historical/historical.service';
+import { HistoricalDeleteDialogComponent } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical-delete-dialog.component';
+import { HistoricalService } from 'app/entities/userActivitiesHistorical/userActivitiesHistorical/userActivitiesHistorical.service';
 
 describe('Component Tests', () => {
   describe('Historical Management Delete Component', () => {

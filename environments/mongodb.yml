@@ -1,6 +1,6 @@
 version: '2'
 services:
-  historical-mongodb:
+  icommerce-mongodb:
     image: mongo:4.2.7
     container_name: icommerce-mongodb
     ports:
