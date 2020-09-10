@@ -3,7 +3,6 @@ package com.icommerce.developer.product.repository;
 import com.icommerce.developer.product.domain.Cart;
 import com.icommerce.developer.product.domain.Product;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -25,22 +24,15 @@ public class CartRepository {
 
     public Cart addToCart(String userId, Product product, Integer quantity) {
         Cart cart = getCart(userId);
-        cart.getSelectedProducts().put(product, quantity);
-        cart.setTotalAmount(calculateTotalAmount(cart.getSelectedProducts()));
+        cart.getSelectedProducts().put(product.getId(), quantity);
+        cart.setTotalAmount(calculateTotalAmount(product, quantity, cart.getTotalAmount()));
         shoppingCart.put(userId, cart);
         return cart;
     }
 
-    private Integer calculateTotalAmount(Map<Product, Integer> selectedProducts) {
-        int totalAmount = 0;
-        if (CollectionUtils.isEmpty(selectedProducts)) {
-            return totalAmount;
-        }
-        for (Product product : selectedProducts.keySet()) {
-            int quantity = selectedProducts.get(product);
-            totalAmount += (quantity * product.getPrice());
-        }
-        return totalAmount;
+    private Integer calculateTotalAmount(Product product, Integer quantity, Integer currentAmount) {
+        currentAmount += (quantity * product.getPrice());
+        return currentAmount;
     }
 
     public Cart getCart(String userId) {
@@ -55,4 +47,5 @@ public class CartRepository {
         }
         return shoppingCart.get(userId);
     }
+
 }

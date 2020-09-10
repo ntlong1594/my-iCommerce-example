@@ -77,7 +77,7 @@ public class ProductServiceTest {
         verify(productRepository).findById("1");
         verify(productRepository, never()).save(any(Product.class));
         verify(userActivitiesHistoricalEventPublisher).publish(anyString(), anyString());
-        verify(productChangelogHistoricalEventPublisher).publish(any(Product.class));
+        verify(productChangelogHistoricalEventPublisher, never()).publish(any(Product.class));
     }
 
     @Test

@@ -8,6 +8,9 @@ public enum ActionId {
     GET_ALL_PRODUCTS,
     SEARCH_PRODUCTS,
     ADD_TO_CART,
+    GET_ALL_ORDERS,
+    GET_ORDER,
+    CHECKOUT_ORDER,
     VIEW_CART,
     CHECKOUT_CART
 }

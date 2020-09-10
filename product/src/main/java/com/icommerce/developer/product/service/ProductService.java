@@ -5,6 +5,7 @@ import com.icommerce.developer.product.domain.Product;
 import com.icommerce.developer.product.messaging.ProductChangelogHistoricalEventPublisher;
 import com.icommerce.developer.product.messaging.UserActivitiesHistoricalEventPublisher;
 import com.icommerce.developer.product.repository.ProductRepository;
+import com.icommerce.developer.product.security.AuthoritiesConstants;
 import com.icommerce.developer.product.service.dto.ProductDTO;
 import com.icommerce.developer.product.service.dto.SearchCriteria;
 import com.icommerce.developer.product.service.supporter.ProductSearchCriteria;
@@ -46,7 +47,7 @@ public class ProductService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public Product save(ProductDTO productDTO) {
         Product product = new Product();
         product.setBrand(productDTO.getBrand());
@@ -59,7 +60,7 @@ public class ProductService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public Product update(ProductDTO productDTO) {
         try {
             Product existing = productRepository.findById(productDTO.getId())
@@ -75,6 +76,8 @@ public class ProductService {
         }
     }
 
+    @Transactional
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void deleteBy(String id) {
         try {
             productRepository.deleteById(id);
@@ -83,6 +86,7 @@ public class ProductService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Optional<Product> findDetailBy(String id) {
         try {
             return productRepository.findById(id);
@@ -91,6 +95,7 @@ public class ProductService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<Product> findAll(Pageable pageable) {
         try {
             return productRepository.findAll(pageable);
@@ -99,6 +104,7 @@ public class ProductService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<Product> search(SearchCriteria searchCriteria, Pageable pageable) {
         try {
             Query query = new Query();

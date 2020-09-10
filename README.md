@@ -14,7 +14,7 @@ This icommerce project is my personal project I'd like to challenge myself and b
 - jhipster-registry (8761)
 - kafka (9092)
 - zookeeper (2181)
-- keycloak (9080) - please update your hosts file by adding the following line `127.0.0.1 keycloak`
+- keycloak (9080)
 - gateway (8080)
 - mongodb (27017)
 - postgresql (5432)
@@ -22,11 +22,14 @@ This icommerce project is my personal project I'd like to challenge myself and b
 - historical (8083)
 
 2. Ensure you already installed Docker Desktop ( most of the services are running in docker)
+3. Edit `hosts` file by adding this line `127.0.0.1 keycloak`. 
+   - For macOs hosts file is located at `/private/etc`
+   - For windows hosts file is located at `C:\Windows\System32\drivers\etc`
 
 # Overview about gateway service
  - An important service in microservice to centralize and dispatch request. This is built via jhipster cli and I customized a bit to support social login (Facebook),
  - You can access to icommerce system by access : http://localhost:8080 you can choose login with your social Facebook account or with 2 created account:`admin/admin` or `user/user`. The login mechanism is working with `Keycloak server` which is running silenly in docker (you can access keycloak via this url: http://localhost:9080)
- - If you login as user, you are able to use SWAGGER UI , this is my recommendation if you want to discover how icommerce works vìa API.
+ - If you login as `admin`, you are able to use SWAGGER UI , this is my recommendation if you want to discover how icommerce works vìa API.
 
 # Overview about historical service
  - The place to keep track user's activies, when ever user interact with our system.

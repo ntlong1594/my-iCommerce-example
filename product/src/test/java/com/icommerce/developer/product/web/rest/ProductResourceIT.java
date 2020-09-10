@@ -90,6 +90,7 @@ public class ProductResourceIT {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void createProduct() throws Exception {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
         // Create the Product
@@ -105,11 +106,10 @@ public class ProductResourceIT {
         assertThat(testProduct.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testProduct.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testProduct.getBrand()).isEqualTo(DEFAULT_BRAND);
-        assertThat(testProduct.getImage()).isEqualTo(DEFAULT_IMAGE);
-        assertThat(testProduct.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void createProductWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
 
@@ -129,6 +129,7 @@ public class ProductResourceIT {
 
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void checkTitleIsRequired() throws Exception {
         int databaseSizeBeforeTest = productRepository.findAll().size();
         // set the field null
@@ -147,6 +148,7 @@ public class ProductResourceIT {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void checkPriceIsRequired() throws Exception {
         int databaseSizeBeforeTest = productRepository.findAll().size();
         // set the field null
@@ -165,6 +167,7 @@ public class ProductResourceIT {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void checkBrandIsRequired() throws Exception {
         int databaseSizeBeforeTest = productRepository.findAll().size();
         // set the field null
@@ -223,6 +226,7 @@ public class ProductResourceIT {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void updateProduct() throws Exception {
         // Initialize the database
         productRepository.save(product);
@@ -250,11 +254,10 @@ public class ProductResourceIT {
         assertThat(testProduct.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testProduct.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testProduct.getBrand()).isEqualTo(UPDATED_BRAND);
-        assertThat(testProduct.getImage()).isEqualTo(UPDATED_IMAGE);
-        assertThat(testProduct.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void updateNonExistingProduct() throws Exception {
         int databaseSizeBeforeUpdate = productRepository.findAll().size();
 
@@ -270,6 +273,7 @@ public class ProductResourceIT {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void deleteProduct() throws Exception {
         // Initialize the database
         productRepository.save(product);

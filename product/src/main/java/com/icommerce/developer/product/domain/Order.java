@@ -24,6 +24,10 @@ public class Order implements Serializable {
     private String paymentType;
 
     @NotNull
+    @Field("created_by")
+    private String createdBy;
+
+    @NotNull
     @Field("cart")
     private Cart cart;
 
@@ -71,20 +75,13 @@ public class Order implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Order)) {
-            return false;
-        }
-        return id != null && id.equals(((Order) o).id);
+
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    @Override
-    public int hashCode() {
-        return 31;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     @Override
@@ -92,6 +89,7 @@ public class Order implements Serializable {
         return "Order{" +
             "id='" + id + '\'' +
             ", paymentType='" + paymentType + '\'' +
+            ", createdBy='" + createdBy + '\'' +
             ", cart=" + cart +
             ", deliveryDate=" + deliveryDate +
             ", createdDate=" + createdDate +

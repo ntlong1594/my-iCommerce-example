@@ -1,19 +1,18 @@
 package com.icommerce.developer.product.web.rest;
 
 import com.icommerce.developer.product.domain.Order;
-import com.icommerce.developer.product.repository.OrderRepository;
-import com.icommerce.developer.product.web.rest.errors.BadRequestAlertException;
-
+import com.icommerce.developer.product.security.AuthoritiesConstants;
+import com.icommerce.developer.product.service.OrderService;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -33,49 +32,22 @@ public class OrderResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderResource(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderResource(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     /**
-     * {@code POST  /orders} : Create a new order.
+     * Make an order when user want to purchase their cart
      *
-     * @param order the order to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new order, or with status {@code 400 (Bad Request)} if the order has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @return
      */
     @PostMapping("/orders")
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) throws URISyntaxException {
-        log.debug("REST request to save Order : {}", order);
-        if (order.getId() != null) {
-            throw new BadRequestAlertException("A new order cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Order result = orderRepository.save(order);
+    public ResponseEntity<Order> makeOrder() throws URISyntaxException {
+        Order result = orderService.makeAnOrder();
         return ResponseEntity.created(new URI("/api/orders/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
-            .body(result);
-    }
-
-    /**
-     * {@code PUT  /orders} : Updates an existing order.
-     *
-     * @param order the order to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated order,
-     * or with status {@code 400 (Bad Request)} if the order is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the order couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/orders")
-    public ResponseEntity<Order> updateOrder(@Valid @RequestBody Order order) throws URISyntaxException {
-        log.debug("REST request to update Order : {}", order);
-        if (order.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Order result = orderRepository.save(order);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, order.getId()))
             .body(result);
     }
 
@@ -85,9 +57,10 @@ public class OrderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orders in body.
      */
     @GetMapping("/orders")
-    public List<Order> getAllOrders() {
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public List<Order> getAllOrders(Pageable pageable) {
         log.debug("REST request to get all Orders");
-        return orderRepository.findAll();
+        return orderService.findAll(pageable).getContent();
     }
 
     /**
@@ -99,20 +72,8 @@ public class OrderResource {
     @GetMapping("/orders/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable String id) {
         log.debug("REST request to get Order : {}", id);
-        Optional<Order> order = orderRepository.findById(id);
+        Optional<Order> order = orderService.findBy(id);
         return ResponseUtil.wrapOrNotFound(order);
     }
 
-    /**
-     * {@code DELETE  /orders/:id} : delete the "id" order.
-     *
-     * @param id the id of the order to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
-    @DeleteMapping("/orders/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
-        log.debug("REST request to delete Order : {}", id);
-        orderRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
-    }
 }

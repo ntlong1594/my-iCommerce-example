@@ -42,11 +42,18 @@ public class HistoricalResourceIT {
     @Autowired
     private MockMvc restHistoricalMockMvc;
 
-    private UserActivitiesHistorical userActivitiesHistorical;
+    public static UserActivitiesHistorical createEntity() {
+        return new UserActivitiesHistorical()
+            .userId(DEFAULT_USER_ID)
+            .actionId(DEFAULT_ACTION_ID)
+            .actionDescription(DEFAULT_ACTION_DESCRIPTION)
+            .actionDate(DEFAULT_ACTION_DATE);
+    }
 
     @Test
     public void getAllHistoricals() throws Exception {
         // Initialize the database
+        UserActivitiesHistorical userActivitiesHistorical = createEntity();
         userActivitiesHistoricalRepository.save(userActivitiesHistorical);
 
         // Get all the historicalList
@@ -55,7 +62,6 @@ public class HistoricalResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userActivitiesHistorical.getId())))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)))
-            .andExpect(jsonPath("$.[*].correlationId").value(hasItem(DEFAULT_CORRELATION_ID)))
             .andExpect(jsonPath("$.[*].actionId").value(hasItem(DEFAULT_ACTION_ID)))
             .andExpect(jsonPath("$.[*].actionDescription").value(hasItem(DEFAULT_ACTION_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].actionDate").value(hasItem(DEFAULT_ACTION_DATE.toString())));
