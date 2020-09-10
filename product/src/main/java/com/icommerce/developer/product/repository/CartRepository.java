@@ -1,8 +1,10 @@
 package com.icommerce.developer.product.repository;
 
 import com.icommerce.developer.product.domain.Cart;
+import com.icommerce.developer.product.domain.CartDetail;
 import com.icommerce.developer.product.domain.Product;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -24,20 +26,38 @@ public class CartRepository {
 
     public Cart addToCart(String userId, Product product, Integer quantity) {
         Cart cart = getCart(userId);
-        cart.getSelectedProducts().put(product.getId(), quantity);
-        cart.setTotalAmount(calculateTotalAmount(product, quantity, cart.getTotalAmount()));
+        CartDetail cartDetail = cart.getSelectedProducts().getOrDefault(product.getId(), new CartDetail());
+        if (quantity > 1) {
+            cartDetail.setPricePerUnit(product.getPrice());
+            cartDetail.setQuantity(quantity);
+            cart.getSelectedProducts().put(product.getId(), cartDetail);
+        } else {
+            if (cart.getSelectedProducts().containsKey(product.getId())) {
+                cart.getSelectedProducts().remove(product.getId());
+            }
+        }
+
+        cart.setTotalAmount(calculateTotalAmount(cart.getSelectedProducts()));
         shoppingCart.put(userId, cart);
         return cart;
     }
 
-    private Integer calculateTotalAmount(Product product, Integer quantity, Integer currentAmount) {
-        currentAmount += (quantity * product.getPrice());
-        return currentAmount;
+    private Integer calculateTotalAmount(Map<String, CartDetail> selectedProducts) {
+        int totalAmount = 0;
+        if (CollectionUtils.isEmpty(selectedProducts)) {
+            return totalAmount;
+        }
+        for (String productId : selectedProducts.keySet()) {
+            totalAmount += (selectedProducts.get(productId).getQuantity() *
+                selectedProducts.get(productId).getPricePerUnit());
+        }
+        return totalAmount;
     }
 
     public Cart getCart(String userId) {
-        if (shoppingCart.get(userId) == null) {
-            Cart cart = new Cart();
+        Cart cart = shoppingCart.get(userId);
+        if (cart == null) {
+            cart = new Cart();
             cart.setId(UUID.randomUUID());
             cart.setUserId(userId);
             cart.setCreatedDate(LocalDate.now());
@@ -45,7 +65,13 @@ public class CartRepository {
             cart.setSelectedProducts(new HashMap<>());
             shoppingCart.put(userId, cart);
         }
-        return shoppingCart.get(userId);
+        return cart;
+    }
+
+    public void clearCart(String userId) {
+        if (shoppingCart.get(userId) != null) {
+            shoppingCart.remove(userId);
+        }
     }
 
 }

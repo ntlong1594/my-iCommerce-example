@@ -37,7 +37,7 @@ public class OrderService {
 
     @Transactional
     public Order makeAnOrder() {
-        String currentUser = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new RuntimeException("Not found userId"));
+        String currentUser = SecurityUtils.getCurrentUserLogin().orElse("system");
         Cart cart = cartRepository.getCart(currentUser);
         if (CollectionUtils.isEmpty(cart.getSelectedProducts())) {
             throw new RuntimeException("Your cart is empty, you are not allow to make an order");
@@ -49,8 +49,10 @@ public class OrderService {
         order.setPaymentType("CASH");
         order.setCreatedBy(currentUser);
         order = orderRepository.save(order);
+        cartRepository.clearCart(currentUser);
         userActivitiesHistoricalEventPublisher.publish(ActionId.CHECKOUT_ORDER.name(),
             String.format("User %s view order detail %s", currentUser, order));
+        // Remove the shopping cart
         return order;
     }
 

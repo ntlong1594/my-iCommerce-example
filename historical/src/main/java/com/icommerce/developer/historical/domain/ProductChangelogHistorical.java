@@ -34,6 +34,10 @@ public class ProductChangelogHistorical implements Serializable {
     @Field("action_date")
     private LocalDate updatedDate;
 
+    @NotNull
+    @Field("updated_by")
+    private String updatedBy;
+
     public String getId() {
         return id;
     }
@@ -74,6 +78,14 @@ public class ProductChangelogHistorical implements Serializable {
         this.productId = productId;
     }
 
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public String toString() {
         return "ProductChangelogHistorical{" +
@@ -82,6 +94,7 @@ public class ProductChangelogHistorical implements Serializable {
             ", version=" + version +
             ", detail=" + detail +
             ", updatedDate=" + updatedDate +
+            ", updatedBy='" + updatedBy + '\'' +
             '}';
     }
 }

@@ -12,5 +12,5 @@ public enum ActionId {
     GET_ORDER,
     CHECKOUT_ORDER,
     VIEW_CART,
-    CHECKOUT_CART
+    CLEAR_CART,
 }

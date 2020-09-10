@@ -49,6 +49,14 @@ This icommerce project is my personal project I'd like to challenge myself and b
 # Component Architecture
 ![Component-Architecture](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/Component-Architecture.png)
 
+# Key fearture
+- Login with Facebook
+- CRUD Products ( searching by price , brand , and title)
+- Add Product to shopping cart
+- Checkout a shopping cart ( make an payment)
+- Keep track user activites
+- Keep track product price update version.
+
 # How to start.
 - Start the environments services (without these services , icommerce is not able to run): Go to `environments` folder and run the shell script `start-mac-os.sh` or `start-windows-os.sh` depends on your operating system ( I develop this app in macOs) => By running the above script, we list of required services will run in the background inside docker.
 - Please wait for few seconds before moving to next step. ( Your docker need time to startup the required services :) ).

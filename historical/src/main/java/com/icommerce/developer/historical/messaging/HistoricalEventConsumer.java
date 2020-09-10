@@ -49,6 +49,7 @@ public class HistoricalEventConsumer {
             productChangelogHistorical.setProductId(productChangelogHistoricalEvent.getProductId());
             productChangelogHistorical.setUpdatedDate(productChangelogHistoricalEvent.getUpdateDate());
             productChangelogHistorical.setVersion(productChangelogHistoricalEvent.getVersion());
+            productChangelogHistorical.setUpdatedBy(productChangelogHistoricalEvent.getUserId());
             productChangelogHistoricalRepository.save(productChangelogHistorical);
         }
         logger.info("Done consuming productChangelogHistoricalEvent");

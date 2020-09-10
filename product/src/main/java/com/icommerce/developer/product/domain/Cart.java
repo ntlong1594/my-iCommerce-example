@@ -14,7 +14,7 @@ public class Cart implements Serializable {
 
     private String userId;
 
-    private Map<String, Integer> selectedProducts;
+    private Map<String, CartDetail> selectedProducts;
 
     private Integer totalAmount;
 
@@ -32,11 +32,11 @@ public class Cart implements Serializable {
         this.userId = userId;
     }
 
-    public Map<String, Integer> getSelectedProducts() {
+    public Map<String, CartDetail> getSelectedProducts() {
         return selectedProducts;
     }
 
-    public void setSelectedProducts(Map<String, Integer> selectedProducts) {
+    public void setSelectedProducts(Map<String, CartDetail> selectedProducts) {
         this.selectedProducts = selectedProducts;
     }
 
