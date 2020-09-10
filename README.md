@@ -59,8 +59,11 @@ This icommerce project is my personal project I'd like to challenge myself and b
 - Keep track product price update version for auditing in the future.
 
 # How to start.
-- Start the environments services (without these services , icommerce is not able to run): Go to `environments` folder and run the shell script `start-mac-os.sh` or `start-windows-os.sh` depends on your operating system ( I develop this app in macOs) => By running the above script, we list of required services will run in the background inside docker.
-- Please wait for few seconds before moving to next step. ( Your docker need time to startup the required services :) ).
+- Start the environments services (without these services , icommerce is not able to run): Go to `environments` folder and run the shell script `start-mac-os.sh` or `start-windows-os.bat` depends on your operating system ( I develop this app in macOs) => By running the above script, we list of required services will run in the background inside docker.
+- Please wait for few seconds before moving to next step. ( Your docker need time to startup the required services :) ). You can use command `docker ps -a` to check if all related services are started successfully or not:
+![console](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/console-docker.png)
+
+
 - Now we need to start 3 more services on our local (these 3 services is contains logic and implementation, therefore starting local could help us monitor and debug easily for understanding), they are: `gateway`, , `historical`, `product`
 - `gateway` , go to `gateway` folder and run `npm run webpack:build` , when it finished , then run `./mvnw` for mac and for windows is `mvnw`
 - `historical`, go to `historical` then run `./mvnw` for mac and for windows is `mvnw`
@@ -69,14 +72,27 @@ This icommerce project is my personal project I'd like to challenge myself and b
 If your console inform that the `gateway` is started successfully, now you can access the system by going to: `http://localhost:8080/` , and the below is landing page
 ![Landing-Page](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/landing-page.png)
 
-You can access to the swagger of system to play arround with APIS:
+
+- Let's login by default account or via your facebook account
+
+You can access to the swagger of system  (typically , `user` account could not see the swagger, however, to let you easily discover icommerce, I have custom to make it visible with account with role `user`) to play arround with APIS:
 ![Swagger-Page1](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-api-1.png)
 ![Swagger-history](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-history.png)
 ![Swagger-product](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-product.png)
+
+IF you login as `admin/admin`, you can go to `Administrator` tab to monitor your other services:
+![gateway](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/gateway.png)
+![metric](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/metric.png)
+
+
+If you want to discover more , you can access to : `http://localhost:8761/` and login as `admin/admin`, this is jhipster-registry, the place where all of our services in icommerce system must depends on it:
+![jhipster](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/jhipster.png)
 
 # What could be improve in the future
 - Searching engine: If I get extra time, I will use ElasticSearch for product searching instead of using mongodb
 - Enhance in memory shopping cart, currently shopping cart is using ConcurrentMap and running in memory , This should be much better if I could use Redis cache instead.
 - Write some additional test, due to time limitation, there are a lot of missing test. 
 - Data Structure and Data type, currently Data structure and Data type of each entities model is just quick design , and could not adapt for real world ecommerce system. If I have more time, I could design much better data structure which can store many type of product.
+- Exception , currently , most of exception , I use as RunTimeException  and it's not correct if we run in real system. Exception must be specify and more detail.
+- Kafka DLQ handler, whenever the message consuming, it have chance to be failed, and failed message is shifted to kafka dlq topic, currently we have no mechanism to handle fail message.
 - Bugs , of course , any system has its own bugs, and maybe some bugs and some issue I could not aware to avoid it in the short time challenge.

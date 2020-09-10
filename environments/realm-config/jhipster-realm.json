@@ -1627,7 +1627,7 @@
       "firstBrokerLoginFlowAlias": "first broker login",
       "config": {
         "syncMode": "IMPORT",
-        "clientSecret": "**********",
+        "clientSecret": "b7e37500951faebb501fa6129dc8de26",
         "clientId": "321155192300405",
         "useJwksUrl": "true"
       }
