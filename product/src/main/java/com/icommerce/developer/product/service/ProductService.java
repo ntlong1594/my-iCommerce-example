@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +66,11 @@ public class ProductService {
         try {
             Product existing = productRepository.findById(productDTO.getId())
                 .orElseThrow(() -> new RuntimeException("Could not found product with id " + productDTO.getId()));
+            productChangelogHistoricalEventPublisher.publish(existing); // keep the old version of product
             existing.setPrice(productDTO.getPrice());
             existing.setTitle(productDTO.getTitle());
             existing.setBrand(productDTO.getBrand());
             existing = productRepository.save(existing);
-            productChangelogHistoricalEventPublisher.publish(existing);
             return existing;
         } finally {
             userActivitiesHistoricalEventPublisher.publish(ActionId.UPDATE_PRODUCT.name(), productDTO.toString());
@@ -96,15 +97,6 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Product> findAll(Pageable pageable) {
-        try {
-            return productRepository.findAll(pageable);
-        } finally {
-            userActivitiesHistoricalEventPublisher.publish(ActionId.GET_ALL_PRODUCTS.name(), pageable.toString());
-        }
-    }
-
-    @Transactional(readOnly = true)
     public Page<Product> search(SearchCriteria searchCriteria, Pageable pageable) {
         try {
             Query query = new Query();
@@ -114,8 +106,9 @@ public class ProductService {
                     criteriaCondition.add(criteria.buildCriteriaLikeCondition(searchCriteria));
                 }
             });
-
-            query.addCriteria(new Criteria().andOperator(criteriaCondition.toArray(new Criteria[criteriaCondition.size()])));
+            if (!CollectionUtils.isEmpty(criteriaCondition)) {
+                query.addCriteria(new Criteria().andOperator(criteriaCondition.toArray(new Criteria[criteriaCondition.size()])));
+            }
             query.with(pageable);
             return new PageImpl<>(mongoTemplate.find(query, Product.class));
         } finally {

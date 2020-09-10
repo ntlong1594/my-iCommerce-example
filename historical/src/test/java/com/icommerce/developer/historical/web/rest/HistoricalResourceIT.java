@@ -51,13 +51,14 @@ public class HistoricalResourceIT {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void getAllHistoricals() throws Exception {
         // Initialize the database
         UserActivitiesHistorical userActivitiesHistorical = createEntity();
         userActivitiesHistoricalRepository.save(userActivitiesHistorical);
 
         // Get all the historicalList
-        restHistoricalMockMvc.perform(get("/api/historicals?sort=id,desc"))
+        restHistoricalMockMvc.perform(get("/api/historicals/user-activities?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userActivitiesHistorical.getId())))

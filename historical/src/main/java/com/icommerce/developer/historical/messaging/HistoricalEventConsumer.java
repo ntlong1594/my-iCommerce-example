@@ -39,7 +39,7 @@ public class HistoricalEventConsumer {
         logger.info("Done consuming userActivitiesHistoricalEvent");
     }
 
-    @StreamListener(HistoricalEventChannel.ACTIVIES_INPUT)
+    @StreamListener(HistoricalEventChannel.PRODUCT_INPUT)
     public void consumeUserProductChangelogEvent(@Payload ProductChangelogHistoricalEvent productChangelogHistoricalEvent) {
         logger.info("Consume productChangelogHistoricalEvent");
         if (!productChangelogHistoricalRepository

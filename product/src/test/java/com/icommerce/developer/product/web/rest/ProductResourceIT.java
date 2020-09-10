@@ -186,23 +186,6 @@ public class ProductResourceIT {
     }
 
     @Test
-    public void getAllProducts() throws Exception {
-        // Initialize the database
-        productRepository.save(product);
-
-        // Get all the productList
-        restProductMockMvc.perform(get("/api/products?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].brand").value(hasItem(DEFAULT_BRAND)))
-            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
-    }
-
-    @Test
     public void getProduct() throws Exception {
         // Initialize the database
         productRepository.save(product);

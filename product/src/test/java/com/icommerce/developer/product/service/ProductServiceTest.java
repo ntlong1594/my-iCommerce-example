@@ -123,21 +123,6 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void findAll_should_delegate_to_repository() {
-        // Given
-        Pageable pageable = mock(Pageable.class);
-        Page<Product> productPage = mock(Page.class);
-        when(productRepository.findAll(pageable)).thenReturn(productPage);
-        // When
-        Page<Product> result = productService.findAll(pageable);
-        // Then
-        assertThat(result).isSameAs(productPage);
-        verify(productRepository).findAll(pageable);
-        verify(userActivitiesHistoricalEventPublisher).publish(anyString(), anyString());
-    }
-
-
-    @Test
     public void search_should_deletgate_mongo_template() {
         // Given
         Pageable pageable = PageRequest.of(1, 10);

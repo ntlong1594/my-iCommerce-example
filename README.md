@@ -3,6 +3,7 @@ This icommerce project is my personal project I'd like to challenge myself and b
 
 # Technical using
 - Microservices, Angular 8 , Jhipster, Keycloak, Liquibase, Docker, Zookeeper, Kafka, postgresql, mongodb
+- Spring Cloud
 - Java version 1.8
 - Angular CLI: 8.3.8
 - Node: 10.20.1
@@ -10,7 +11,7 @@ This icommerce project is my personal project I'd like to challenge myself and b
 - Spring Boot: 2.2.7
 
 # Pre condition before starting 
-1. Please ensure the below ports are available in your machine:
+1. Please ensure the below ports are available in your local machine:
 - jhipster-registry (8761)
 - kafka (9092)
 - zookeeper (2181)
@@ -34,7 +35,7 @@ This icommerce project is my personal project I'd like to challenge myself and b
 # Overview about historical service
  - The place to keep track user's activies, when ever user interact with our system.
  - There is a kafka consumer that listen on the topic and consume the message from `product service` then save it to MongoDB.
- - Only 1 endpoint is `getAll` to retrieve all user activities
+ - Only 1 endpoint to retrieve all user activities and 1 endpoint to retrieve product update changelog.
 
 # Overview about product service
  - The place to keep track products list, shopping cart and Order entity information when user make a payment
@@ -49,13 +50,13 @@ This icommerce project is my personal project I'd like to challenge myself and b
 # Component Architecture
 ![Component-Architecture](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/Component-Architecture.png)
 
-# Key fearture
+# Key feartures
 - Login with Facebook
 - CRUD Products ( searching by price , brand , and title)
 - Add Product to shopping cart
 - Checkout a shopping cart ( make an payment)
 - Keep track user activites
-- Keep track product price update version.
+- Keep track product price update version for auditing in the future.
 
 # How to start.
 - Start the environments services (without these services , icommerce is not able to run): Go to `environments` folder and run the shell script `start-mac-os.sh` or `start-windows-os.sh` depends on your operating system ( I develop this app in macOs) => By running the above script, we list of required services will run in the background inside docker.
@@ -64,3 +65,18 @@ This icommerce project is my personal project I'd like to challenge myself and b
 - `gateway` , go to `gateway` folder and run `npm run webpack:build` , when it finished , then run `./mvnw` for mac and for windows is `mvnw`
 - `historical`, go to `historical` then run `./mvnw` for mac and for windows is `mvnw`
 - `product`, go to `product` then run `./mvnw` for mac and for windows is `mvnw`
+
+If your console inform that the `gateway` is started successfully, now you can access the system by going to: `http://localhost:8080/` , and the below is landing page
+![Landing-Page](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/landing-page.png)
+
+You can access to the swagger of system to play arround with APIS:
+![Swagger-Page1](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-api-1.png)
+![Swagger-history](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-history.png)
+![Swagger-product](https://github.com/ntlong1594/my-iCommerce-example/blob/master/imgs/swagger-product.png)
+
+# What could be improve in the future
+- Searching engine: If I get extra time, I will use ElasticSearch for product searching instead of using mongodb
+- Enhance in memory shopping cart, currently shopping cart is using ConcurrentMap and running in memory , This should be much better if I could use Redis cache instead.
+- Write some additional test, due to time limitation, there are a lot of missing test. 
+- Data Structure and Data type, currently Data structure and Data type of each entities model is just quick design , and could not adapt for real world ecommerce system. If I have more time, I could design much better data structure which can store many type of product.
+- Bugs , of course , any system has its own bugs, and maybe some bugs and some issue I could not aware to avoid it in the short time challenge.
